@@ -5,19 +5,19 @@ module.exports = function( grunt, options ){
     // list of files to watch, and tasks to run if those files change
 
     gruntfile: {
-      files: ['<%= jshint.gruntfile.src %>', 'grunt/*.js'],
-      tasks: ['jshint:gruntfile', 'uidocs-generator']
+      files: ['packages/*/src/**/*.js', 'packages/*/test/**/*.spec.js', 'test/**/*.spec.js', 'grunt/*.js'],
+      tasks: ['shell:lint', 'shell:build', 'uidocs-generator']
     },
 
     ngtemplates: {
       // files: ['packages/*/src/templates/**/*.html'],
       files: '<%= ngtemplates.uigrid.src %>',
-      tasks: ['ngtemplates']
+      tasks: ['ngtemplates', 'shell:build']
     },
 
     rebuild: {
       files: util.testFiles.unit,
-      tasks: ['jshint:src_test', 'jscs', 'karmangular:run', 'concat', 'uglify', 'uidocs-generator'],
+      tasks: ['shell:lint', 'karmangular:run', 'shell:build', 'uidocs-generator'],
     },
 
     protractor: {
@@ -27,7 +27,7 @@ module.exports = function( grunt, options ){
 
     less: {
       files: 'src/**/*.less',
-      tasks: ['less', 'uidocs-generator', 'concat:customizer_less']
+      tasks: ['shell:less', 'uidocs-generator', 'concat:customizer_less']
     },
 
     docs: {
